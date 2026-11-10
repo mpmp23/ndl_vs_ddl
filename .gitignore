@@ -1,0 +1,30 @@
+
+# API keys and environment variables
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Archives and logs
+*.zip
+*.log
+
+# Archived experiment runs
+old_verification_outputs/
+
+# Raw experiment outputs (review before publishing)
+runs/verification/
+outputs/
+
+# IDE settings
+.vscode/
+.idea/

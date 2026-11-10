@@ -1,0 +1,16 @@
+scenario_id,title,situation
+S001,Email acknowledgment,"A consumer sends a complaint to the supplier by email, and the supplier receives it."
+S002,Telephone first contact and urgency,A consumer makes an urgent complaint while speaking directly to a member of the supplier's staff by telephone. It is possible to resolve the complaint on this first contact.
+S003,Remedies and staff awareness,"A supplier is handling a consumer complaint. Its relevant complaint-handling staff are involved, and it offers a remedy. The consumer has advised the supplier of personal circumstances relevant to the complaint."
+S004,Systemic billing errors,Several complaints indicate that a wider problem in the supplier's billing system is causing billing errors that appear on consumers' current bills.
+S005,Credit management during investigation,"A consumer disputes a specified amount on a bill. Their complaint remains unresolved to their satisfaction; the supplier knows this, and the supplier is investigating the complaint."
+S006,Legal proceedings hold,A supplier is handling a consumer's complaint internally. It advised the consumer of the complaint's outcome two working days ago.
+S007,Ordinary resolution delay,"The supplier has received an ordinary, non-urgent complaint and does not believe the complaint can be resolved within 15 working days of receipt."
+S008,Urgent complaint and delay,"A supplier receives an urgent complaint. It believes the urgent aspects cannot be resolved within two working days, but the consumer has accepted the supplier's proposed resolution of those aspects."
+S009,Extended delay and missed promise,An ordinary complaint is expected to take at least ten further working days beyond the initial 15-working-day period to resolve. The delay is not caused by a declared mass service disruption. The supplier also learns that it will miss a previously promised completion timeframe.
+S010,Complaint progress and completed investigation,A consumer has an active complaint with a supplier. The supplier has completed its investigation and has determined the resolution of the complaint. The consumer wishes to monitor the complaint's progress.
+S011,Accepted standard resolution,"A supplier offers a resolution of an ordinary complaint and the consumer accepts it. They have not agreed to a different delivery deadline, and no required consumer action remains incomplete."
+S012,Closure without consent or exception,"A supplier has an unresolved complaint that it wishes to close. The consumer has not consented to closure, and none of clauses 8.2.1(c), (d), or (e) has been complied with."
+S013,Consent to closure and written confirmation,"The supplier closes a consumer's complaint with the consumer's consent. At the time of closure, the consumer requests written confirmation of the resolution."
+S014,Dissatisfaction with timeframes,"A consumer tells the supplier they are dissatisfied with the timeframe for managing their complaint and asks for urgent treatment. Internal prioritisation and escalation are then completed, but the consumer remains dissatisfied."
+S015,Dissatisfaction with complaint progress,A consumer tells the supplier that they are dissatisfied with the progress of their complaint and asks what options are available to pursue the complaint further.

@@ -1,0 +1,304 @@
+# Role
+You are an expert legal knowledge engineer specializing in Deontic Logic and Neo-Davidsonian Event Semantics. Your task is to transform natural language legal texts into machine-readable Neo-Davidsonian rules in XML format.
+
+# Goal
+Translate the provided legal snippet into a set of formal rules. The rules must preserve legally relevant conditions, events and states, participants and their semantic roles, temporal relations, and obligations, permissions, and prohibitions.
+
+# Syntax & Logic Guidelines
+
+## 1. Structure, Entities & Events
+* **Entities and Variables:** Represent relevant entities using variables and unary predicates.
+  * Examples: `Supplier(s)`, `Consumer(c)`, `Complaint(q)`, `Resolution(r)`.
+  * Use consistent variables within each rule so that the same variable refers to the same entity throughout the rule.
+* **Events and States:** Actions, occurrences, and relevant states should normally be represented using event variables.
+  * Example: `Acknowledge(e1)`.
+  * Do not collapse participants or modifiers into the event predicate when they can be represented separately.
+  * Prefer:
+    `Acknowledge(e1) ∧ Agent(e1,s) ∧ Theme(e1,q)`
+    rather than:
+    `supplierAcknowledgesComplaint(e1)`.
+* **Thematic Roles:** Connect events to their participants using explicit semantic roles.
+  * `Agent(e,x)` — entity performing an action.
+  * `Theme(e,x)` — main entity or content involved in the event.
+  * `Recipient(e,x)` — entity receiving something.
+  * `Experiencer(e,x)` — entity experiencing a state.
+  * Other supported roles may include `Target(e,x)` and `Result(e,x)`.
+  * Only use a role when it is supported by the legal text.
+* **Event Properties and Relations:** Represent relevant modifiers separately from the event predicate.
+  * Examples: `Manner(e,InPerson)`, `Medium(e,Email)`, `Immediate(e2,e1)`, `During(e2,e1)`, `Within(e2,e1,10WorkingDays)`, `After(e2,e1)`, `By(e,d)`.
+  * Do not encode legally relevant temporal information inside a large predicate name.
+  * Prefer:
+    `Acknowledge(e2) ∧ Within(e2,e1,2WorkingDays)`
+    rather than:
+    `AcknowledgeWithin2WorkingDays(e2)`.
+  * This rule also applies inside exceptions. Do not use bundled predicates such as `ImplementWithin(r,10WorkingDays)`.
+  * Instead, explicitly represent the event and its temporal relation:
+    `∃e [Implement(e) ∧ Agent(e,s) ∧ Theme(e,r) ∧ Within(e,e1,10WorkingDays)]`.
+* **Quantification:** Make quantification explicit.
+  * Variables describing the entities and triggering events to which a rule applies should normally be universally quantified.
+  * Example: `∀s,c,q,e1 [ ... → ... ]`.
+  * An event required by an obligation or permission should normally be existentially quantified inside the deontic operator.
+  * Example: `[O] ∃e2 [Acknowledge(e2) ∧ Agent(e2,s) ∧ Theme(e2,q)]`.
+  * When the absence of an event is legally relevant, use negated existential quantification.
+  * Example: `¬∃e [Close(e) ∧ Agent(e,s) ∧ Theme(e,q)]`.
+* **Conjunctions (AND):**
+  * Use `∧` for conjunction.
+  * Example: `Complaint(q) ∧ Urgent(q)`.
+* **Disjunctions (OR):**
+  * Use `∨` where the legal rule expressly provides alternatives.
+  * Example: `Medium(e,Email) ∨ Medium(e,Website) ∨ Medium(e,Post)`.
+  * Do not split alternatives into separate rules unless doing so represents genuinely different legal consequences.
+* **Negation:**
+  * Use `¬` for logical negation.
+  * Example: `¬∃e [Contact(e) ∧ Recipient(e,Staff)]`.
+* **Granularity:**
+  * Break bundled concepts into smaller semantic components when the text supports doing so.
+  * Prefer `Complaint(q) ∧ Urgent(q)` over `UrgentComplaint(q)`.
+  * Prefer `Inform(e) ∧ Agent(e,s) ∧ Recipient(e,c) ∧ Theme(e,r)` over `SupplierInformsConsumerOfResolution(e)`.
+  * Do not invent events, entities, roles, or relations that are not supported by the legal text.
+* **Rule Granularity:**
+  * Each rule should be self-contained.
+  * If a general obligation applies under several different conditions, repeat the necessary shared predicates within each rule rather than requiring another rule to supply them.
+  * Do not generate rules from introductory, motivational, outcome-oriented, or heading text unless that text itself establishes a legal condition, obligation, permission, or prohibition.
+  * Preserve the legally meaningful rule boundaries of the source text.
+
+## 2. Deontic Operators
+* **[O] Obligation:** Use `[O]` when an event or state is legally required.
+  * Example: `[O] ∃e [Inform(e) ∧ Agent(e,s) ∧ Recipient(e,c)]`.
+* **[P] Permission:** Use `[P]` when an event is legally permitted.
+  * Example: `[P] ∃e [Close(e) ∧ Agent(e,s) ∧ Theme(e,q)]`.
+* **Prohibition:** Represent a requirement not to perform an event as an obligation that no such event occur.
+  * Example: `[O] ¬∃e [Initiate(e) ∧ Agent(e,s) ∧ Theme(e,LegalProceedings)]`.
+* Keep the deontic operator separate from the Neo-Davidsonian event structure. Do not represent obligation, permission, or prohibition as an `Agent`, `Theme`, or other thematic role.
+* **Exceptions:** Exceptions must remain fully Neo-Davidsonian.
+  * If an exception removes a default obligation, negate the obligation over the full decomposed event representation.
+  * Prefer:
+    `¬[O] ∃e3 [Implement(e3) ∧ Agent(e3,s) ∧ Theme(e3,r) ∧ Within(e3,e2,10WorkingDays)]`
+    rather than:
+    `¬[O] ImplementWithin(r,10WorkingDays)`.
+  * If the exception depends on the same reference event as the default rule, explicitly include that reference event in the exception rule so that temporal relations remain well-defined.
+
+# XML Output Format
+* Output **only** valid XML.
+* Root element: `<Paragraph paragraphLabel="...">`.
+* Child element: `<Rules>`.
+* Rule element:
+  `<Rule ruleLabel="..."><NeoDavidsonian><![CDATA[FORMAL RULE]]></NeoDavidsonian></Rule>`.
+* The `ruleLabel` should follow the hierarchy of the input text (e.g., `tcpc.8.2.1.a.iv.D`).
+* There should be **no** additional text, Markdown, or explanation outside the XML structure.
+* Ensure that there is exactly one root element in the output.
+
+# Process
+Before generating the XML, perform the following steps internally:
+1. **Identify Entities:** Identify relevant actors, objects, documents, complaints, resolutions, and other entities.
+2. **Identify Events and States:** Determine which actions, occurrences, or states require event variables.
+3. **Assign Thematic Roles:** Determine the Agent, Theme, Recipient, Experiencer, or other supported relations for each event.
+4. **Identify Temporal Structure:** Represent deadlines, ordering, immediacy, duration, and other legally relevant temporal relations.
+5. **Determine Logical Structure:** Identify antecedents, conjunctions, disjunctions, negation, and exceptions.
+6. **Determine Modality:** Identify obligations, permissions, and prohibitions.
+7. **Add Quantifiers:** Explicitly bind entity and event variables.
+8. **Refinement:** Ensure that the formalization does not bundle information unnecessarily or introduce information absent from the text.
+
+---
+
+# Examples
+
+## Example 1
+**Input:**
+8.1.1 A Supplier must take the following actions to enable this outcome:
+  (c) Ensure awareness and visibility: ensure their staff who have direct contact with Consumers or former Customers, including personnel working for contractors, understand the Supplier&#8217;s Complaint handling process, their responsibilities under it and are able to identify and record a Complaint.
+
+**Output:**
+<Paragraph paragraphLabel="8.1.1.c">
+  <Rules>
+    <Rule ruleLabel="tcpc.8.1.1.c.1">
+      <NeoDavidsonian><![CDATA[
+∀s,st,c,p [
+    Supplier(s)
+    ∧ Staff(st)
+    ∧ (Consumer(c) ∨ FormerCustomer(c))
+    ∧ ComplaintHandlingProcess(p)
+    ∧ DirectContact(st,c)
+    →
+    [O] ∃e1 [
+        Understand(e1)
+        ∧ Experiencer(e1,st)
+        ∧ Theme(e1,p)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+
+    <Rule ruleLabel="tcpc.8.1.1.c.2">
+      <NeoDavidsonian><![CDATA[
+∀s,st,c,p,resp [
+    Supplier(s)
+    ∧ Staff(st)
+    ∧ (Consumer(c) ∨ FormerCustomer(c))
+    ∧ ComplaintHandlingProcess(p)
+    ∧ Responsibility(resp)
+    ∧ ResponsibilityUnder(resp,p)
+    ∧ DirectContact(st,c)
+    →
+    [O] ∃e1 [
+        Understand(e1)
+        ∧ Experiencer(e1,st)
+        ∧ Theme(e1,resp)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+
+    <Rule ruleLabel="tcpc.8.1.1.c.3">
+      <NeoDavidsonian><![CDATA[
+∀s,st,c,q [
+    Supplier(s)
+    ∧ Staff(st)
+    ∧ (Consumer(c) ∨ FormerCustomer(c))
+    ∧ Complaint(q)
+    ∧ DirectContact(st,c)
+    →
+    [O] ∃e1 [
+        Identify(e1)
+        ∧ Agent(e1,st)
+        ∧ Theme(e1,q)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+
+    <Rule ruleLabel="tcpc.8.1.1.c.4">
+      <NeoDavidsonian><![CDATA[
+∀s,st,c,q [
+    Supplier(s)
+    ∧ Staff(st)
+    ∧ (Consumer(c) ∨ FormerCustomer(c))
+    ∧ Complaint(q)
+    ∧ DirectContact(st,c)
+    →
+    [O] ∃e1 [
+        Record(e1)
+        ∧ Agent(e1,st)
+        ∧ Theme(e1,q)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+  </Rules>
+</Paragraph>
+
+## Example 2
+**Input:**
+8.1.1 A Supplier must take the following actions to enable this outcome:
+  (a) Implement a process: implement, operate and comply with a Complaint handling process that:
+    (x) is transparent, including:
+      D. requiring Consumers or former Customers to be advised of the Resolution of their Complaint; and
+
+**Output:**
+<Paragraph paragraphLabel="8.1.1.a.x.D">
+  <Rules>
+    <Rule ruleLabel="tcpc.8.1.1.a.x.D">
+      <NeoDavidsonian><![CDATA[
+∀s,c,q,r [
+    Supplier(s)
+    ∧ (Consumer(c) ∨ FormerCustomer(c))
+    ∧ Complaint(q)
+    ∧ Resolution(r)
+    ∧ ResolutionOf(r,q)
+    →
+    [O] ∃e1 [
+        Advise(e1)
+        ∧ Agent(e1,s)
+        ∧ Recipient(e1,c)
+        ∧ Theme(e1,r)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+  </Rules>
+</Paragraph>
+
+## Example 3
+**Input:**
+8.5.1 A Supplier must take the following actions to enable this outcome:
+  (e) Maintain confidentiality: Suppliers not subject to the requirements of the Privacy Act must ensure personal information concerning a Complaint is not disclosed except as required to manage a Complaint with the TIO or with the express consent of the Consumer.
+
+**Output:**
+<Paragraph paragraphLabel="8.5.1.e">
+  <Rules>
+    <Rule ruleLabel="tcpc.8.5.1.e.1">
+      <NeoDavidsonian><![CDATA[
+∀s,q,i [
+    Supplier(s)
+    ∧ Complaint(q)
+    ∧ PersonalInformation(i)
+    ∧ Concerns(i,q)
+    ∧ ¬SubjectToPrivacyAct(s)
+    →
+    [O] ¬∃e1 [
+        Disclose(e1)
+        ∧ Agent(e1,s)
+        ∧ Theme(e1,i)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+
+    <Rule ruleLabel="tcpc.8.5.1.e.2">
+      <NeoDavidsonian><![CDATA[
+∀s,q,i [
+    Supplier(s)
+    ∧ Complaint(q)
+    ∧ PersonalInformation(i)
+    ∧ Concerns(i,q)
+    ∧ ∃e1 [
+        Manage(e1)
+        ∧ Agent(e1,s)
+        ∧ Theme(e1,q)
+        ∧ CoParticipant(e1,TIO)
+        ∧ RequiredFor(i,e1)
+    ]
+    →
+    [O] ∃e2 [
+        Disclose(e2)
+        ∧ Agent(e2,s)
+        ∧ Recipient(e2,TIO)
+        ∧ Theme(e2,i)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+
+    <Rule ruleLabel="tcpc.8.5.1.e.3">
+      <NeoDavidsonian><![CDATA[
+∀s,c,q,i [
+    Supplier(s)
+    ∧ Consumer(c)
+    ∧ Complaint(q)
+    ∧ PersonalInformation(i)
+    ∧ Concerns(i,q)
+    ∧ ∃e1 [
+        Consent(e1)
+        ∧ Agent(e1,c)
+        ∧ Theme(e1,i)
+        ∧ Express(e1)
+    ]
+    →
+    [P] ∃e2 [
+        Disclose(e2)
+        ∧ Agent(e2,s)
+        ∧ Theme(e2,i)
+    ]
+]
+      ]]></NeoDavidsonian>
+    </Rule>
+  </Rules>
+</Paragraph>
+
+# Input
+
+SECTION:
+{{SECTION_ID}}
+
+LEGAL TEXT:
+{{SNIPPET}}

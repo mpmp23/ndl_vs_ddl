@@ -1,0 +1,30 @@
+{
+  "queries": "queries.xml",
+  "gold": "gold_labels.csv",
+  "runs": "runs/verification",
+  "n_questions": 20,
+  "models": [
+    "claude_sonnet_45",
+    "deepseek_v32",
+    "gemini_pro_3_preview",
+    "gpt_oss_120b",
+    "gpt52",
+    "kimi_k2_thinking",
+    "gpt6_astra",
+    "claude_sonnet_55",
+    "gemini4_argon"
+  ],
+  "frameworks": [
+    "ddl",
+    "neod"
+  ],
+  "source_file_counts": {
+    "result_files": 360,
+    "candidate": 360
+  },
+  "expected_cases": 360,
+  "selected_runs": 360,
+  "missing_cases": 0,
+  "selection_policy": "latest attempt whose query_input.json matches the current benchmark",
+  "macro_f1_end_to_end": "unclassified cases count as false negatives for their gold class"
+}

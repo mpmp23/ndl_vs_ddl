@@ -1,0 +1,7 @@
+framework,gold_label,pred_Entailment,pred_Contradiction,pred_NotMentioned,no_classification,total
+ddl,Entailment,36,0,2,25,63
+ddl,Contradiction,0,31,0,32,63
+ddl,NotMentioned,2,0,31,21,54
+neod,Entailment,13,0,26,24,63
+neod,Contradiction,0,17,26,20,63
+neod,NotMentioned,2,0,18,34,54

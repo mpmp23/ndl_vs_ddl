@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Queries>
+  <Query queryId="Q001" scenarioId="S001">
+    <RelevantSections>
+      <Section>8.2.1.a.i</Section>
+    </RelevantSections>
+    <Situation>A consumer sends a complaint to the supplier by email, and the supplier receives it.</Situation>
+    <Hypothesis>The supplier must acknowledge the complaint within two working days of receiving it.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q002" scenarioId="S002">
+    <RelevantSections>
+      <Section>8.2.1.a.ii</Section>
+    </RelevantSections>
+    <Situation>A consumer makes an urgent complaint while speaking directly to a member of the supplier's staff by telephone. It is possible to resolve the complaint on this first contact.</Situation>
+    <Hypothesis>Even though the complaint is urgent and first-contact resolution is possible, the supplier is not required to seek resolution during that first contact.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q003" scenarioId="S002">
+    <RelevantSections>
+      <Section>8.2.1.a.viii</Section>
+    </RelevantSections>
+    <Situation>A consumer makes an urgent complaint while speaking directly to a member of the supplier's staff by telephone. It is possible to resolve the complaint on this first contact.</Situation>
+    <Hypothesis>The supplier must implement the urgent aspects of a proposed resolution within two working days of receiving the complaint.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q004" scenarioId="S003">
+    <RelevantSections>
+      <Section>8.2.1.a.iv.B</Section>
+    </RelevantSections>
+    <Situation>A supplier is handling a consumer's complaint and offers a remedy. The consumer has not advised the supplier of any particular individual circumstances.</Situation>
+    <Hypothesis>The supplier must tailor the offered remedy to the consumer's individual circumstances.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q005" scenarioId="S004">
+    <RelevantSections>
+      <Section>8.2.1.a.iv.C</Section>
+    </RelevantSections>
+    <Situation>Several complaints indicate that a wider problem in the supplier's billing system is causing billing errors that appear on consumers' current bills.</Situation>
+    <Hypothesis>The supplier must address the root cause of the wider billing problem indicated by the complaints.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q006" scenarioId="S004">
+    <RelevantSections>
+      <Section>8.2.1.a.iv.C</Section>
+      <Section>8.2.1.a.iv.D</Section>
+    </RelevantSections>
+    <Situation>Several complaints indicate that a wider problem in the supplier's billing system is causing billing errors that appear on consumers' current bills.</Situation>
+    <Hypothesis>When a wider billing-system problem causes errors on consumers' current bills, the supplier is not required to resolve those current-bill errors.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q007" scenarioId="S005">
+    <RelevantSections>
+      <Section>8.2.1.a.v</Section>
+    </RelevantSections>
+    <Situation>A consumer disputed a specified amount on a bill. The complaint has now been resolved to the consumer's satisfaction, and the investigation has concluded.</Situation>
+    <Hypothesis>The supplier must refrain from taking credit management action concerning the specified amount.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q008" scenarioId="S006">
+    <RelevantSections>
+      <Section>8.2.1.a.vi</Section>
+    </RelevantSections>
+    <Situation>The supplier has completed its internal handling of a consumer's complaint. It advised the consumer of the outcome, and the seven-working-day period following that notification has elapsed.</Situation>
+    <Hypothesis>The supplier must continue to delay commencement of legal proceedings concerning the complaint.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q009" scenarioId="S007">
+    <RelevantSections>
+      <Section>8.2.1.a.ix.A</Section>
+    </RelevantSections>
+    <Situation>The supplier has received an ordinary, non-urgent complaint and does not believe the complaint can be resolved within 15 working days of receipt.</Situation>
+    <Hypothesis>When the supplier expects an ordinary complaint to take longer than 15 working days to resolve, it is not required to advise the consumer of the reasons for the delay before working day 15.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q010" scenarioId="S007">
+    <RelevantSections>
+      <Section>8.2.1.a.ix.C</Section>
+    </RelevantSections>
+    <Situation>The supplier has received an ordinary, non-urgent complaint and does not believe the complaint can be resolved within 15 working days of receipt.</Situation>
+    <Hypothesis>The supplier must advise the consumer of external dispute resolution options, including the TIO.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q011" scenarioId="S008">
+    <RelevantSections>
+      <Section>8.2.1.a.viii</Section>
+    </RelevantSections>
+    <Situation>A supplier receives an urgent complaint, proposes a resolution for its urgent aspects, and the consumer accepts it on the day the complaint is received.</Situation>
+    <Hypothesis>Even when the consumer accepts a proposed urgent resolution on the day the complaint is received, the supplier is not obligated to implement its urgent aspects within two working days after receipt.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q012" scenarioId="S009">
+    <RelevantSections>
+      <Section>8.2.1.a.ix.C</Section>
+    </RelevantSections>
+    <Situation>An ordinary complaint is expected to take at least ten further working days beyond the initial 15-working-day period to resolve. The delay is not caused by a declared mass service disruption. The supplier has missed a previously promised completion timeframe and continues working toward a resolution.</Situation>
+    <Hypothesis>The supplier must advise the consumer of external dispute resolution options, including the TIO.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q013" scenarioId="S009">
+    <RelevantSections>
+      <Section>8.2.1.a.x</Section>
+    </RelevantSections>
+    <Situation>An ordinary complaint is expected to take at least ten further working days beyond the initial 15-working-day period to resolve. The delay is not caused by a declared mass service disruption. The supplier has missed a previously promised completion timeframe and continues working toward a resolution.</Situation>
+    <Hypothesis>When a supplier misses a previously promised complaint-resolution timeframe, it has no obligation to inform the consumer of that delay while it continues working toward a resolution.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q014" scenarioId="S010">
+    <RelevantSections>
+      <Section>8.2.1.a.xi</Section>
+    </RelevantSections>
+    <Situation>A consumer has an active complaint with a supplier. The supplier has completed its investigation and has determined the resolution of the complaint. The consumer wishes to monitor the complaint's progress.</Situation>
+    <Hypothesis>The supplier must provide a means for the consumer to monitor the progress of their complaint.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q015" scenarioId="S010">
+    <RelevantSections>
+      <Section>8.2.1.a.xii</Section>
+    </RelevantSections>
+    <Situation>A consumer has an active complaint with a supplier. The supplier has completed its investigation and has determined the resolution of the complaint. The consumer wishes to monitor the complaint's progress.</Situation>
+    <Hypothesis>After completing its investigation, the supplier is not required to communicate the complaint's resolution to the consumer in everyday language.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q016" scenarioId="S011">
+    <RelevantSections>
+      <Section>8.2.1.a.xiii</Section>
+    </RelevantSections>
+    <Situation>A supplier offers a resolution of an ordinary complaint, and the consumer accepts it. The supplier and consumer have agreed to a different timeframe for delivering the resolution.</Situation>
+    <Hypothesis>The supplier must complete implementation of the accepted resolution within ten working days of acceptance.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q017" scenarioId="S012">
+    <RelevantSections>
+      <Section>8.2.1.a.xiv</Section>
+    </RelevantSections>
+    <Situation>A supplier has an unresolved complaint that it wishes to close. The consumer has not consented to closure, and none of clauses 8.2.1(c), (d), or (e) has been complied with.</Situation>
+    <Hypothesis>The supplier must not close the complaint in these circumstances.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q018" scenarioId="S013">
+    <RelevantSections>
+      <Section>8.2.1.a.xiv</Section>
+      <Section>8.2.1.a.xv</Section>
+    </RelevantSections>
+    <Situation>The supplier closes a consumer's complaint with the consumer's consent. At the time of closure, the consumer requests written confirmation of the resolution.</Situation>
+    <Hypothesis>The supplier must send written confirmation of the complaint's resolution within five working days.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q019" scenarioId="S014">
+    <RelevantSections>
+      <Section>8.2.1.b</Section>
+    </RelevantSections>
+    <Situation>A consumer tells the supplier they are dissatisfied with the timeframe for managing their complaint and asks for urgent treatment. Internal prioritisation and escalation are then completed, but the consumer remains dissatisfied.</Situation>
+    <Hypothesis>The supplier must tell the consumer about its internal prioritisation process.</Hypothesis>
+  </Query>
+
+  <Query queryId="Q020" scenarioId="S015">
+    <RelevantSections>
+      <Section>8.2.1.c</Section>
+    </RelevantSections>
+    <Situation>A consumer tells the supplier that they are dissatisfied with the progress of their complaint and asks what options are available to pursue the complaint further. The supplier has already explained its internal escalation process to the consumer.</Situation>
+    <Hypothesis>When a consumer asks how to pursue a complaint further, the supplier is not required to inform them about external dispute resolution options, including the TIO, if it has already explained its internal escalation process.</Hypothesis>
+  </Query>
+</Queries>

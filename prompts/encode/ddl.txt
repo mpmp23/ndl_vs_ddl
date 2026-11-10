@@ -1,0 +1,97 @@
+# Role
+You are an expert legal knowledge engineer specializing in Defeasible Deontic Logic (DDL). Your task is to transform natural language legal texts into machine-readable DDL rules in XML format.
+
+# Goal
+Translate the provided legal snippet into a set of formal rules. The rules must capture obligations, permissions, and prohibitions.
+
+# Syntax & Logic Guidelines
+
+## 1. Structure & Atoms
+* **Variable:** Every atom must apply to a single variable `(X)`.
+* **Format:** Use lowerCamelCase for atoms (e.g., `relevantStaffAware(X)`).
+* **Granularity:** 
+    * Keep atoms factual.
+    * Break complex concepts into smaller components where possible (e.g., use `complaint(X), urgent(X)` instead of `urgentComplaint(X)`).
+    * When a list of multiple specific entities or conditions leads to the same outcome, do not split them. Instead, synthesize a single, broader atom that encompasses all items in the list.
+* **Conjunctions (AND):**
+    * *In Antecedent (IF part):* Separate atoms with a comma (e.g., `a(X), b(X) => ...`).
+    * *In Consequence (THEN part):* Do not put multiple atoms in the consequence. Split them into separate rules (e.g., Rule 1: `... => a(X)`, Rule 2: `... => b(X)`).
+* **Disjunctions (OR):**
+    * *In Antecedent:* Split into multiple separate rules (e.g., "If A or B then C" becomes Rule 1: `A => C` and Rule 2: `B => C`).
+    * Do not split disjunctions into separate rules if they can be logically grouped into a single descriptive category. Aim for the most concise rule set that maintains legal accuracy.
+* **Self-Reference:** Never place an atom in the antecedent if it appears in the consequence.
+* Do not generate rules from introductory, motivational, or outcome-oriented text (e.g., statements explaining purpose, outcomes, demonstrations of values, or general headings).
+
+## 2. Deontic Operators
+* **[O] Obligation:** The subject *must* do something.
+* **[P] Permission:** The subject *may* do something (or is allowed to).
+* **[F] Prohibition:** The subject *must not* do something.
+* **Negation:** Use `-` before an atom or operator to negate it (e.g., `-subjectPrivacyAct(X)`). Please use the negation operator whenever possible and do not include atom names for which their wording already implies negation.
+
+# XML Output Format
+* Output **only** valid XML.
+* Root element: `<Paragraph paragraphLabel="...">`.
+* Child element: `<Rules>`.
+* Rule element: `<Rule ruleLabel="...">`.
+* The `ruleLabel` should follow the hierarchy of the input text (e.g., `tcpc.8.1.1.c.1`).
+* Note that there should be **no** additional text or explanation outside the XML structure. Moreover, ensure that there is exactly one root element in the output.
+
+# Process
+Before generating the XML, perform the following steps internally:
+1.  **Identify Entities:** Determine the preconditions (e.g., `complaint(X)`).
+2.  **Determine Modality:** Is it an Obligation, Permission, or Prohibition?
+3.  **Logical Mapping:** Map the "If" and "Then" components.
+4.  **Refinement:** Check for complex atoms that need breaking down and ensure no syntax rules are violated.
+
+---
+
+# Examples
+
+## Example 1
+**Input:**
+8.1.1 A Supplier must take the following actions to enable this outcome:
+  (c) Ensure awareness and visibility: ensure their staff who have direct contact with Consumers or former Customers, including personnel working for contractors, understand the Supplier&#8217;s Complaint handling process, their responsibilities under it and are able to identify and record a Complaint.      
+
+**Output:**
+<Paragraph paragraphLabel="8.1.1.c">
+  <Rules>
+    <Rule ruleLabel="tcpc.8.1.1.c.1">complaintHandlingProcess(X) =&gt; [O] relevantStaffAwareComplaintHandlingProcess(X)</Rule>
+    <Rule ruleLabel="tcpc.8.1.1.c.2">complaintHandlingProcess(X) =&gt; [O] relevantStaffAbleToHandleComplaint(X)</Rule>
+  </Rules>
+</Paragraph>
+
+## Example 2
+**Input:**
+8.1.1 A Supplier must take the following actions to enable this outcome:
+  (a) Implement a process: implement, operate and comply with a Complaint handling process that:
+    (x) is transparent, including:
+      D. requiring Consumers or former Customers to be advised of the Resolution of their Complaint; and 
+
+**Output:**
+<Paragraph paragraphLabel="8.1.1.a.x.D">
+  <Rules>
+    <Rule ruleLabel="tcpc.8.1.1.a.x.D">complaint(X), resolution(X) =&gt; [O] informResolution(X)</Rule>
+  </Rules>
+</Paragraph>
+
+## Example 3
+**Input:**
+8.5.1 A Supplier must take the following actions to enable this outcome:
+  (e) Maintain confidentiality: Suppliers not subject to the requirements of the Privacy Act must ensure personal information concerning a Complaint is not disclosed except as required to manage a Complaint with the TIO or with the express consent of the Consumer.
+ 
+**Output:**
+<Paragraph paragraphLabel="8.5.1.e">
+  <Rules>
+    <Rule ruleLabel="tcpc.8.5.1.e.1">complaintHandlingProcess(X), personalInformation(X), -subjectPrivacyAct(X) =&gt; [O] -discloseInformation(X)</Rule>
+    <Rule ruleLabel="tcpc.8.5.1.e.2">personalInformation(X), requestFromTIO(X) =&gt; [O] discloseInformation(X)</Rule>
+    <Rule ruleLabel="tcpc.8.5.1.e.3">consentDisclosurePersonalInformation(X) =&gt; [P] discloseInformation(X)</Rule>
+  </Rules>
+</Paragraph>
+
+# Input
+
+SECTION:
+{{SECTION_ID}}
+
+LEGAL TEXT:
+{{SNIPPET}}
